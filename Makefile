@@ -1,36 +1,34 @@
-PROJECT_ROOT = $(shell pwd)
+PROJECT_ROOT = $(PWD)
 ENV_NAME_MODEL = envs/qazllm_model_env
 REQUIREMENTS_FILE_MODEL = requirements.txt
-MODEL_IMAGE_TAG=issai_qazllm:latest
-
-
+CODE_DIR = src/main.py
+TAG = issai_qazllm_benchmark:latest
 # Targets
-.PHONY: export_env_vars create_model_env install_model_requirements \
-		model_docker_build model_docker_run model_docker_run_default model_docker_tag model_docker_down \
-		install_nvidia_docker
+.PHONY: install_nvidia_docker export_env_vars create_env install_requirements \
+		build_via_compose run_via_compose down_via_compose
 
 # Target to install NVIDIA Docker
 install_nvidia_docker:
 	./install_nvidia_docker.sh
 
-# Build the Docker image
-model_docker_build:
+# Build the Docker image via compose
+build_via_compose:
 	docker-compose build
 
-# Run the Docker container with a custom command
-model_docker_run:
+# Run the Docker container with a custom command via compose
+run_via_compose:
 	@echo "Running $(DIR)"
 	@DIR=$(DIR) docker-compose up --build
 
 # Bring down any running containers
-model_docker_down:
+down_via_compose:
 	docker-compose down
 
 export_env_vars:
 	@echo "export PROJECT_ROOT=$(PROJECT_ROOT)" 
 	@echo "Environment variable PROJECT_ROOT exported."
 
-create_model_env:
+create_env:
 	@if [ ! -d $(ENV_NAME_MODEL) ]; then \
 		python3 -m venv $(ENV_NAME_MODEL); \
 		echo "Virtual environment $(ENV_NAME_MODEL) created."; \
@@ -38,7 +36,7 @@ create_model_env:
 		echo "Virtual environment $(ENV_NAME_MODEL) already exists."; \
 	fi
 
-install_model_requirements: 
+install_requirements: 
 	@. $(ENV_NAME_MODEL)/bin/activate && pip install -r $(REQUIREMENTS_FILE_MODEL)
 	@echo "Requirements installed."
 
