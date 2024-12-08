@@ -1,0 +1,17 @@
+autoawq==0.2.6
+autoawq_kernels==0.0.7
+datasets==3.0.1
+numpy==1.26.3
+pandas==2.2.3
+torch
+torchvision
+tqdm==4.66.5
+transformers==4.45.1
+evaluate==0.4.3
+vllm
+huggingface_hub 
+
+
+
+
+ 
