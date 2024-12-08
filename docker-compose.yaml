@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  issai_qazllm:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: issai_qazllm:latest
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=4,5,6,7
+      - DIR=${DIR}  # Pass the COMMAND as an environment variable
+    volumes:
+      - ${PWD}:/issai_qazllm
+      - /data/nvme7n1p1/checkpoinst_llama_8B_05122024:/issai_qazllm/models/
+    ports:
+      - "3434:3434"
+    command: /bin/sh -c 'python3 $DIR'
