@@ -160,5 +160,5 @@ make build_via_compose
 
 To start the benchmarking process, run:
 ```bash
-make run_via_compose
+make run_via_compose DIR=src/main.py
 ```
