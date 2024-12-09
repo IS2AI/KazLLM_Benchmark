@@ -96,9 +96,8 @@ The framework uses various metrics depending on the benchmark:
   - HumanEval
 
 ## Usage
-# Benchmarking Setup and Execution
 
-## Prerequisites
+### Prerequisites
 
 1. **Check if Docker is installed**:
    ```bash
@@ -133,13 +132,13 @@ The framework uses various metrics depending on the benchmark:
 
 ---
 
-## Setting Configurations
+### Setting Configurations
 
 Edit the `conf/parameters_benchmark.yaml` file to set your desired configurations for benchmarking.
 
 ---
 
-## Download Datasets
+### Download Datasets
 
 To download the required datasets for benchmarking, run:
 ```bash
@@ -148,7 +147,7 @@ make run_via_compose DIR=src/utils/download_dataset.py
 
 ---
 
-## Build Docker Images (if required)
+### Build Docker Images (if required)
 
 If Docker images need to be built, run:
 ```bash
@@ -157,7 +156,7 @@ make build_via_compose
 
 ---
 
-## Run Benchmark
+### Run Benchmark
 
 To start the benchmarking process, run:
 ```bash
