@@ -15,5 +15,3 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-CMD ["bash", "-c", "ls models"]
-# CMD ["bash", "-c", "exec \"$@\"", "--"]

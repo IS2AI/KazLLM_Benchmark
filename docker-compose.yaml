@@ -13,7 +13,8 @@ services:
       - DIR=${DIR}  # Pass the COMMAND as an environment variable
     volumes:
       - ${PWD}:/issai_qazllm
-      - /data/nvme7n1p1/checkpoinst_llama_8B_05122024:/issai_qazllm/models/
+      # uncomment below if you have local storage of models outsde of the directory. 
+      # - /data/nvme7n1p1/checkpoinst_llama_8B_05122024:/issai_qazllm/models/ 
     ports:
       - "3434:3434"
     command: /bin/sh -c 'python3 $DIR'
