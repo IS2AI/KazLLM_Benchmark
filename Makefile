@@ -5,7 +5,7 @@ CODE_DIR = src/main.py
 TAG = issai_qazllm_benchmark:latest
 # Targets
 .PHONY: install_nvidia_docker export_env_vars create_env install_requirements \
-		build_via_compose run_via_compose down_via_compose
+		build_via_compose run_via_compose down_via_compose 
 
 # Target to install NVIDIA Docker
 install_nvidia_docker:
