@@ -6,8 +6,6 @@ from typing import List
 from evaluate import load
 from pathlib import Path
 import yaml  
-import torch
-
 from huggingface_hub import login
 
 from utils.utils import *
@@ -18,13 +16,10 @@ CONFIG_PATH = ROOT_DIR / "conf" / "parameters_benchmark.yaml"
 CREDENTIALS = ROOT_DIR / "conf" / "credentials.yaml"
 
 with open(CONFIG_PATH, "r") as file:
-        config = yaml.safe_load(file)
+    config = yaml.safe_load(file)['params_benchmark']
 
 if config['tensor_parallel_size']>1:
     os.environ['VLLM_WORKER_MULTIPROC_METHOD']='spawn'
-os.environ["HF_ALLOW_CODE_EVAL"] = "1"
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-# os.environ["NVIDIA_VISIBLE_DEVICES"] = "4,5,6,7"
 
 code_eval = load("code_eval")
 
@@ -48,19 +43,17 @@ def main(
     try:
         with open(CREDENTIALS, "r") as file:
             token = yaml.safe_load(file)
+        
         output_dir = "data/evaluation"
+
         os.makedirs(output_dir, exist_ok=True)
         logging.info(f"Loading model: {model_path}")
+
         if is_local_model:
             model_path = Path(model_path).expanduser().resolve().absolute()
-        
-        for i in range(torch.cuda.device_count()):
-            device = torch.device(f"cuda:{i}")
-
-        torch.randn(10, 10).to(device)
-        print(f"GPU {i} is operational: {torch.cuda.get_device_name(i)}")
 
         login(token['hf_token'])
+        
         llm = LLM(
             model=model_path,
             trust_remote_code=True,
@@ -92,7 +85,6 @@ def main(
             'hellaswag': max_tokens['hellaswag'],
             'winogrande': max_tokens['winogrande']
         }
-        
         for benchmark in benchmarks:
             benchmark_results = []
             max_tokens = max_tokens_map[benchmark]
@@ -101,13 +93,13 @@ def main(
                 try:
                     # Special handling for different dataset paths
                     if benchmark == 'gsm8k':
-                        dataset_path = f"datasets/gsm8k_{lang}_v2.csv"
+                        dataset_path = f"data/datasets/gsm8k_{lang}_v2.csv"
                     elif benchmark == 'humaneval':
-                        dataset_path = f"datasets/humaneval_{lang}.csv"
+                        dataset_path = f"data/datasets/humaneval_{lang}.csv"
                     elif benchmark == "arc":
-                        dataset_path = f"datasets/arc_{lang}_v2.csv"
+                        dataset_path = f"data/datasets/arc_{lang}_v2.csv"
                     else:
-                        dataset_path = f"datasets/{benchmark}_{lang}.csv"
+                        dataset_path = f"data/datasets/{benchmark}_{lang}.csv"
                         
                     logging.info(f"Processing {benchmark.upper()} dataset for {lang} with {max_tokens} max tokens")
                     

@@ -1,27 +1,29 @@
+params_benchmark:
+  model_path: "issai/LLama-3-KazLLM-1.0-8B-AWQ4"
+  model_name: "LLama-3-KazLLM-1.0-8B-AWQ4"
+  benchmarks:
+    - "gsm8k"
+    - "arc"
+    - "mmlu"
+    - "drop"
+    - "hellaswag"
+    - "humaneval"
+    - "winogrande"
+  languages:
+    - "kk"
+    - "ru"
+    - "en"
+  batch_size: 64
+  tensor_parallel_size: 4
+  data_portion: 100
+  max_tokens:
+    mmlu: 15
+    arc: 30
+    drop: 40
+    gsm8k: 512
+    humaneval: 512
+    hellaswag: 15
+    winogrande: 15
+  is_local_model: False
 
-model_path: "models/checkpoints_llama8b_031224_6300"
-model_name: "llama8b_031224_6300"
-benchmarks:
-  - "gsm8k"
-  - "arc"
-  - "mmlu"
-  - "drop"
-  - "hellaswag"
-  - "humaneval"
-  - "winogrande"
-languages:
-  - "kk"
-  - "ru"
-  - "en"
-batch_size: 64
-tensor_parallel_size: 4
-data_portion: 100
-max_tokens:
-  mmlu: 15
-  arc: 30
-  drop: 40
-  gsm8k: 512
-  humaneval: 512
-  hellaswag: 15
-  winogrande: 15
-is_local_model: True
+data_repo: "issai/KazLLM_Benchmark_Dataset"
