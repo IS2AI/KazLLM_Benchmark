@@ -13,6 +13,74 @@ The benchmarking process follows these key steps:
 4. Evaluation: Comparison with ground truth using appropriate metrics
 5. Result Aggregation: Computing and storing performance metrics
 
+## Usage
+
+### Prerequisites
+
+1. **Check if Docker is installed**:
+   ```bash
+   docker --version
+   ```
+   If Docker is not installed, refer to the [official Docker installation guide](https://docs.docker.com/get-docker/).
+
+2. **Check if Docker Compose is installed**:
+   ```bash
+   docker-compose --version
+   ```
+   If Docker Compose is not installed, refer to the [official Docker Compose installation guide](https://docs.docker.com/compose/install/).
+
+3. **Check if CUDA and GPUs are available**:
+   ```bash
+   nvidia-smi
+   ```
+   If CUDA is not configured or GPUs are not detected, refer to the [CUDA Toolkit Installation Guide](https://developer.nvidia.com/cuda-toolkit).
+
+4. **Check if NVIDIA Docker is installed**:
+   ```bash
+   nvidia-docker --version
+   ```
+   If NVIDIA Docker is not installed, run the following command in the project root directory (where the `Makefile` is located):
+   ```bash
+   make install_nvidia_docker
+   ```
+   For further information, refer to the [NVIDIA Docker installation guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+
+5. **Configure GPU access**:
+   In the `docker-compose.yaml` file, set the `NVIDIA_VISIBLE_DEVICES` environment variable to specify the GPUs you want to use.
+
+---
+
+### Setting Configurations
+
+Edit the `conf/parameters_benchmark.yaml` file to set your desired configurations for benchmarking.
+
+---
+
+### Download Datasets
+
+To download the required datasets for benchmarking, run:
+```bash
+make run_via_compose DIR=src/utils/download_dataset.py
+```
+
+---
+
+### Build Docker Images (if required)
+
+If Docker images need to be built, run:
+```bash
+make build_via_compose
+```
+
+---
+
+### Run Benchmark
+
+To start the benchmarking process, run:
+```bash
+make run_via_compose DIR=src/main.py
+```
+
 ## Benchmarks
 
 ### [MMLU (Massive Multitask Language Understanding)](https://arxiv.org/abs/2009.03300)
@@ -95,70 +163,4 @@ The framework uses various metrics depending on the benchmark:
 - **Pass@1**: Used for:
   - HumanEval
 
-## Usage
 
-### Prerequisites
-
-1. **Check if Docker is installed**:
-   ```bash
-   docker --version
-   ```
-   If Docker is not installed, refer to the [official Docker installation guide](https://docs.docker.com/get-docker/).
-
-2. **Check if Docker Compose is installed**:
-   ```bash
-   docker-compose --version
-   ```
-   If Docker Compose is not installed, refer to the [official Docker Compose installation guide](https://docs.docker.com/compose/install/).
-
-3. **Check if CUDA and GPUs are available**:
-   ```bash
-   nvidia-smi
-   ```
-   If CUDA is not configured or GPUs are not detected, refer to the [CUDA Toolkit Installation Guide](https://developer.nvidia.com/cuda-toolkit).
-
-4. **Check if NVIDIA Docker is installed**:
-   ```bash
-   nvidia-docker --version
-   ```
-   If NVIDIA Docker is not installed, run the following command in the project root directory (where the `Makefile` is located):
-   ```bash
-   make install_nvidia_docker
-   ```
-   For further information, refer to the [NVIDIA Docker installation guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
-
-5. **Configure GPU access**:
-   In the `docker-compose.yaml` file, set the `NVIDIA_VISIBLE_DEVICES` environment variable to specify the GPUs you want to use.
-
----
-
-### Setting Configurations
-
-Edit the `conf/parameters_benchmark.yaml` file to set your desired configurations for benchmarking.
-
----
-
-### Download Datasets
-
-To download the required datasets for benchmarking, run:
-```bash
-make run_via_compose DIR=src/utils/download_dataset.py
-```
-
----
-
-### Build Docker Images (if required)
-
-If Docker images need to be built, run:
-```bash
-make build_via_compose
-```
-
----
-
-### Run Benchmark
-
-To start the benchmarking process, run:
-```bash
-make run_via_compose DIR=src/main.py
-```
